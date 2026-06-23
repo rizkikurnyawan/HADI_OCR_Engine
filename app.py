@@ -3,134 +3,264 @@ import easyocr
 import numpy as np
 from PIL import Image
 
-# Set judul halaman tanpa emoji kaku
-st.set_page_config(page_title="Hadi OCR Engine", page_icon="📝", layout="centered")
+# =====================================================
+# PAGE CONFIG
+# =====================================================
+st.set_page_config(
+    page_title="Hadi Engine",
+    page_icon="📄",
+    layout="wide"
+)
 
-# --- CUSTOM CSS PERBAIKAN (MINIMALIS & FIX TOMBOL WHITEOUT) ---
-st.markdown("""
-    <style>
-    /* 1. Mengubah Font Judul Utama agar Minimalis, Bersih, dan Lebih Tipis */
-    .minimal-title {
-        font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
-        font-weight: 300; /* Membuat font lebih tipis / tidak kaku */
-        font-size: 2.5rem;
-        color: #1E293B;
-        margin-bottom: 2px;
-        letter-spacing: -0.5px;
-    }
-    .minimal-subtitle {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        font-weight: 400;
-        color: #64748B;
-        font-size: 1rem;
-        margin-bottom: 25px;
-    }
-
-    /* 2. Mengubah Tampilan Area Upload (Kotak Merah) */
-    div[data-testid="stFileUploader"] {
-        background-color: #D12B4B; 
-        border: 2px dashed #FF8A9F;
-        border-radius: 16px;
-        padding: 30px 20px;
-        text-align: center;
-    }
-    
-    /* Memastikan teks petunjuk di dalam kotak berwarna putih */
-    div[data-testid="stFileUploader"] label, 
-    div[data-testid="stFileUploader"] p, 
-    div[data-testid="stFileUploader"] small {
-        color: #FFFFFF !important;
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* 3. FIX TOMBOL: Mengubah warna tombol "Browse files" agar teksnya kelihatan jelas */
-    div[data-testid="stFileUploader"] button {
-        background-color: #FFFFFF !important; /* Latar belakang tombol tetap putih */
-        color: #D12B4B !important;            /* Teks tombol diubah jadi merah agar kontras */
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 6px 16px !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Efek ketika tombol disorot kursor (Hover) */
-    div[data-testid="stFileUploader"] button:hover {
-        background-color: #FFEAEF !important; /* Berubah pink muda saat di-hover */
-        color: #A31D36 !important;
-    }
-    
-    /* 4. Gaya Komponen Fitur di Bagian Bawah */
-    .feature-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        margin-top: 40px;
-        margin-bottom: 20px;
-    }
-    .feature-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 18px;
-        border: 1px dashed #E2E8F0;
-        border-radius: 20px;
-        background-color: #F8FAFC;
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        color: #475569;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Inisialisasi EasyOCR Reader
+# =====================================================
+# LOAD OCR MODEL
+# =====================================================
 @st.cache_resource
 def load_ocr_model():
     return easyocr.Reader(['id', 'en'])
 
 reader = load_ocr_model()
 
-# --- BAGIAN ATAS (Sudah Dibuat Minimalis & Tanpa Gambar Buku) ---
-st.markdown('<h1 class="minimal-title">Hadi OCR Engine</h1>', unsafe_allow_html=True)
-st.markdown('<p class="minimal-subtitle">Extract text from your images smoothly.</p>', unsafe_allow_html=True)
-st.markdown("---")
-
-# Area File Uploader (Tombol sudah diperbaiki tidak "whiteout" lagi)
-uploaded_file = st.file_uploader(
-    label="Upload or drag & drop your files", 
-    type=["jpg", "jpeg", "png"],
-    label_visibility="collapsed" # Menyembunyikan label bawaan agar tidak double text
-)
-
-# --- TAMPILAN FITUR BAWAH ---
+# =====================================================
+# CUSTOM CSS
+# =====================================================
 st.markdown("""
-    <div class="feature-container">
-        <div class="feature-item">🛡️ Privacy-focused</div>
-        <div class="feature-item">📝 Easy to use</div>
-        <div class="feature-item">⏱️ Lightning-fast</div>
-    </div>
+<style>
+
+/* Background */
+.stApp{
+    background-color:#F5F5F5;
+}
+
+/* Hide Streamlit Menu */
+#MainMenu {visibility:hidden;}
+footer {visibility:hidden;}
+header {visibility:hidden;}
+
+/* Container */
+.block-container{
+    padding-top:2rem;
+    max-width:1200px;
+}
+
+/* Logo */
+.logo-container{
+    margin-bottom:40px;
+}
+
+.logo{
+    font-size:42px;
+    font-weight:800;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.logo-red{
+    color:#D12B4B;
+}
+
+.logo-black{
+    color:#1F2937;
+}
+
+/* Hero Title */
+.hero-title{
+    text-align:center;
+    font-size:64px;
+    font-weight:800;
+    color:#111827;
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+/* Hero Subtitle */
+.hero-subtitle{
+    text-align:center;
+    font-size:24px;
+    color:#4B5563;
+    margin-bottom:40px;
+}
+
+/* Upload Box */
+div[data-testid="stFileUploader"]{
+    background:#D12B4B;
+    border:2px dashed #FF9FB0;
+    border-radius:40px;
+    padding:60px 20px;
+}
+
+/* Upload Text */
+div[data-testid="stFileUploader"] label{
+    color:white !important;
+    font-size:24px !important;
+    font-weight:700 !important;
+}
+
+/* Browse Button */
+div[data-testid="stFileUploader"] button{
+    background:white !important;
+    color:#D12B4B !important;
+    border:none !important;
+    border-radius:50px !important;
+    font-weight:700 !important;
+    padding:10px 20px !important;
+}
+
+div[data-testid="stFileUploader"] button:hover{
+    background:#FFE6EC !important;
+    color:#B81E43 !important;
+}
+
+/* Feature Section */
+.feature-container{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    margin-top:40px;
+    margin-bottom:40px;
+}
+
+.feature-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.icon-box{
+    width:55px;
+    height:55px;
+    border:1px dashed #CBD5E1;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:24px;
+    background:white;
+}
+
+.feature-text{
+    font-size:20px;
+    color:#111827;
+}
+
+/* Result Card */
+.result-card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    margin-top:20px;
+}
+
+</style>
 """, unsafe_allow_html=True)
 
-st.markdown("---")
+# =====================================================
+# HEADER
+# =====================================================
+st.markdown("""
+<div class="logo-container">
+    <div class="logo">
+        <span class="logo-red">hadi</span>
+        <span class="logo-black">engine</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-# --- PROSES OCR ---
+# =====================================================
+# HERO SECTION
+# =====================================================
+st.markdown("""
+<div class="hero-title">
+Image to Text Converter
+</div>
+
+<div class="hero-subtitle">
+Turn photos, scans, and images (JPEG, PNG) into Word, TXT, or PDF formats.
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# UPLOAD FILE
+# =====================================================
+uploaded_file = st.file_uploader(
+    "Upload or drag & drop your files",
+    type=["jpg", "jpeg", "png"]
+)
+
+st.markdown(
+"""
+<div style="
+text-align:center;
+margin-top:-10px;
+font-size:14px;
+font-weight:600;
+color:#FFFFFF;">
+Size up to 100 MB
+</div>
+""",
+unsafe_allow_html=True
+)
+
+# =====================================================
+# FEATURES
+# =====================================================
+st.markdown("""
+<div class="feature-container">
+
+    <div class="feature-item">
+        <div class="icon-box">🛡️</div>
+        <div class="feature-text">Privacy-focused</div>
+    </div>
+
+    <div class="feature-item">
+        <div class="icon-box">📝</div>
+        <div class="feature-text">Easy to use</div>
+    </div>
+
+    <div class="feature-item">
+        <div class="icon-box">⚡</div>
+        <div class="feature-text">Lightning-fast</div>
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# OCR PROCESS
+# =====================================================
 if uploaded_file is not None:
+
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
-    
-    with st.spinner("Processing OCR... Please wait..."):
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        st.subheader("Uploaded Image")
+        st.image(image, use_container_width=True)
+
+    with st.spinner("Extracting text..."):
+
         image_np = np.array(image)
         result = reader.readtext(image_np, detail=0)
-        
-    st.subheader("Result:")
-    if result:
-        full_text = "\n".join(result)
-        st.text_area("Detected Text:", full_text, height=250)
-        
-        st.download_button(
-            label="Download as .txt",
-            data=full_text,
-            file_name="ocr_result.txt",
-            mime="text/plain"
+
+        extracted_text = "\n".join(result)
+
+    with col2:
+        st.subheader("OCR Result")
+
+        st.text_area(
+            "",
+            value=extracted_text,
+            height=400
         )
-    else:
-        st.warning("No text detected in this image.")
+
+        st.download_button(
+            label="📥 Download TXT",
+            data=extracted_text,
+            file_name="ocr_result.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
+
+    if not extracted_text:
+        st.warning("No text detected in image.")
