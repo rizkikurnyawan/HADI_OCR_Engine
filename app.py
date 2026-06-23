@@ -223,9 +223,7 @@ div[data-testid="stFileUploader"] button:hover{
 
 
 # =====================================================
-
 # FEATURES
-
 # =====================================================
 
 
@@ -254,7 +252,7 @@ with col1:
 
         text-align:center;
 
-    ">
+    "> </style>
 
         <div style="font-size:32px;">🛡️</div>
 
