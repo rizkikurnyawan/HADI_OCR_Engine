@@ -192,3 +192,89 @@ Image to Text Converter
 Turn photos, scans, and images (JPEG, PNG) into Word, TXT, or PDF formats.
 </div>
 """, unsafe_allow_html=True)
+
+# =====================================================
+# UPLOAD FILE
+# =====================================================
+uploaded_file = st.file_uploader(
+    "Upload or drag & drop your files",
+    type=["jpg", "jpeg", "png"]
+)
+
+st.markdown(
+"""
+<div style="
+text-align:center;
+margin-top:-10px;
+font-size:14px;
+font-weight:600;
+color:#FFFFFF;">
+Size up to 100 MB
+</div>
+""",
+unsafe_allow_html=True
+)
+
+# =====================================================
+# FEATURES
+# =====================================================
+st.markdown("""
+<div class="feature-container">
+
+    <div class="feature-item">
+        <div class="icon-box">🛡️</div>
+        <div class="feature-text">Privacy-focused</div>
+    </div>
+
+    <div class="feature-item">
+        <div class="icon-box">📝</div>
+        <div class="feature-text">Easy to use</div>
+    </div>
+
+    <div class="feature-item">
+        <div class="icon-box">⚡</div>
+        <div class="feature-text">Lightning-fast</div>
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# OCR PROCESS
+# =====================================================
+if uploaded_file is not None:
+
+    image = Image.open(uploaded_file)
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        st.subheader("Uploaded Image")
+        st.image(image, use_container_width=True)
+
+    with st.spinner("Extracting text..."):
+
+        image_np = np.array(image)
+        result = reader.readtext(image_np, detail=0)
+
+        extracted_text = "\n".join(result)
+
+    with col2:
+        st.subheader("OCR Result")
+
+        st.text_area(
+            "",
+            value=extracted_text,
+            height=400
+        )
+
+        st.download_button(
+            label="📥 Download TXT",
+            data=extracted_text,
+            file_name="ocr_result.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
+
+    if not extracted_text:
+        st.warning("No text detected in image.")
