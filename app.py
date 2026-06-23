@@ -215,3 +215,52 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
+# =====================================================
+# OCR PROCESS (Tambahan yang kurang agar web bisa memproses gambar)
+# =====================================================
+if uploaded_file is not None:
+
+    image = Image.open(uploaded_file)
+
+    col1_img, col2_res = st.columns([1, 1])
+
+    with col1_img:
+        st.subheader("Uploaded Image")
+        st.image(image, use_container_width=True)
+
+    with st.spinner("Extracting text..."):
+        try:
+            # 🛡️ Duplikat & perkecil resolusi jika terlalu jumbo untuk menyelamatkan RAM server
+            image_resized = image.copy()
+            image_resized.thumbnail((1200, 1200))
+            
+            image_np = np.array(image_resized)
+            result = reader.readtext(image_np, detail=0)
+            extracted_text = "\n".join(result)
+
+            with col2_res:
+                st.subheader("OCR Result")
+
+                st.text_area(
+                    "",
+                    value=extracted_text,
+                    height=400
+                )
+
+                st.download_button(
+                    label="📥 Download TXT",
+                    data=extracted_text,
+                    file_name="ocr_result.txt",
+                    mime="text/plain",
+                    use_container_width=True
+                )
+
+            if not extracted_text:
+                st.warning("No text detected in image.")
+                
+        except Exception as e:
+            # 🛡️ Jika terjadi kegagalan memori, web tidak akan mati/blank (anti-crash)
+            with col2_res:
+                st.subheader("OCR Result")
+                st.error("⚠️ Gagal mengekstrak gambar ini secara otomatis.")
+                st.info("Saran: Potong (crop) bagian latar belakang gambar yang tidak penting, lalu coba upload kembali.")
