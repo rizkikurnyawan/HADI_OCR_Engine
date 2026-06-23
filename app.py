@@ -1,17 +1,11 @@
 import streamlit as st
-
 import easyocr
-
 import numpy as np
-
 from PIL import Image
 
 
-
 # =====================================================
-
 # PAGE CONFIG
-
 # =====================================================
 
 st.set_page_config(
@@ -243,16 +237,11 @@ with col1:
     <div style="
 
         background:white;
-
         padding:20px;
-
         border-radius:15px;
-
         border:1px dashed #CBD5E1;
-
         text-align:center;
-
-    "> </style>
+    "> 
 
         <div style="font-size:32px;">🛡️</div>
 
@@ -327,7 +316,7 @@ with col3:
         </div>
 
     </div>
-
+</style>
     """, unsafe_allow_html=True)
 
 
