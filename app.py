@@ -113,6 +113,53 @@ div[data-testid="stFileUploader"] button:hover{
 """, unsafe_allow_html=True)
 
 # =====================================================
+# HEADER
+# =====================================================
+st.markdown("""
+<div class="logo-container">
+    <div class="logo">
+        <span class="logo-red">hadi</span>
+        <span class="logo-black">engine</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# HERO SECTION
+# =====================================================
+st.markdown("""
+<div class="hero-title">
+Image to Text Converter
+</div>
+
+<div class="hero-subtitle">
+Turn photos, scans, and images (JPEG, PNG) into Word, TXT, or PDF formats.
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# UPLOAD FILE
+# =====================================================
+uploaded_file = st.file_uploader(
+    "Upload or drag & drop your files",
+    type=["jpg", "jpeg", "png"]
+)
+
+st.markdown(
+"""
+<div style="
+text-align:center;
+margin-top:-10px;
+font-size:14px;
+font-weight:600;
+color:#FFFFFF;">
+Size up to 100 MB
+</div>
+""",
+unsafe_allow_html=True
+)
+
+# =====================================================
 # FEATURES
 # =====================================================
 
@@ -167,77 +214,6 @@ with col3:
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-# =====================================================
-# HEADER
-# =====================================================
-st.markdown("""
-<div class="logo-container">
-    <div class="logo">
-        <span class="logo-red">hadi</span>
-        <span class="logo-black">engine</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# =====================================================
-# HERO SECTION
-# =====================================================
-st.markdown("""
-<div class="hero-title">
-Image to Text Converter
-</div>
-
-<div class="hero-subtitle">
-Turn photos, scans, and images (JPEG, PNG) into Word, TXT, or PDF formats.
-</div>
-""", unsafe_allow_html=True)
-
-# =====================================================
-# UPLOAD FILE
-# =====================================================
-uploaded_file = st.file_uploader(
-    "Upload or drag & drop your files",
-    type=["jpg", "jpeg", "png"]
-)
-
-st.markdown(
-"""
-<div style="
-text-align:center;
-margin-top:-10px;
-font-size:14px;
-font-weight:600;
-color:#FFFFFF;">
-Size up to 100 MB
-</div>
-""",
-unsafe_allow_html=True
-)
-
-# =====================================================
-# FEATURES
-# =====================================================
-st.markdown("""
-<div class="feature-container">
-
-    <div class="feature-item">
-        <div class="icon-box">🛡️</div>
-        <div class="feature-text">Privacy-focused</div>
-    </div>
-
-    <div class="feature-item">
-        <div class="icon-box">📝</div>
-        <div class="feature-text">Easy to use</div>
-    </div>
-
-    <div class="feature-item">
-        <div class="icon-box">⚡</div>
-        <div class="feature-text">Lightning-fast</div>
-    </div>
-
-</div>
-""", unsafe_allow_html=True)
 
 # =====================================================
 # OCR PROCESS
