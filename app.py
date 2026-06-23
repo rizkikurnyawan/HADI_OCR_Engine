@@ -111,36 +111,56 @@ div[data-testid="stFileUploader"] button:hover{
 }
 
 /* Feature Section */
-.feature-container{
-    display:flex;
-    justify-content:center;
-    gap:60px;
-    margin-top:40px;
-    margin-bottom:40px;
-}
+# =====================================================
+# FEATURES
+# =====================================================
 
-.feature-item{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
+st.markdown("<br>", unsafe_allow_html=True)
 
-.icon-box{
-    width:55px;
-    height:55px;
-    border:1px dashed #CBD5E1;
-    border-radius:14px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:24px;
-    background:white;
-}
+col1, col2, col3 = st.columns(3)
 
-.feature-text{
-    font-size:20px;
-    color:#111827;
-}
+card_style = """
+background:white;
+padding:20px;
+border-radius:15px;
+border:1px dashed #CBD5E1;
+text-align:center;
+height:120px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+"""
+
+with col1:
+    st.markdown(f"""
+    <div style="{card_style}">
+        <div style="font-size:32px;">🛡️</div>
+        <div style="font-size:18px;font-weight:600;">
+            Privacy-focused
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div style="{card_style}">
+        <div style="font-size:32px;">📝</div>
+        <div style="font-size:18px;font-weight:600;">
+            Easy to use
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown(f"""
+    <div style="{card_style}">
+        <div style="font-size:32px;">⚡</div>
+        <div style="font-size:18px;font-weight:600;">
+            Lightning-fast
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 /* Result Card */
 .result-card{
