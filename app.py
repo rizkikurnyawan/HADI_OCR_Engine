@@ -192,24 +192,3 @@ Image to Text Converter
 Turn photos, scans, and images (JPEG, PNG) into Word, TXT, or PDF formats.
 </div>
 """, unsafe_allow_html=True)
-
-# =====================================================
-# UPLOAD FILE
-# =====================================================
-uploaded_file = st.file_uploader(
-    "Upload or drag & drop your files",
-    type=["jpg", "jpeg", "png"]
-)
-
-st.markdown(
-"""
-<div style="
-text-align:center;
-margin-top:-10px;
-font-size:14px;
-font-weight:600;
-color:#FFFFFF;">
-Size up to 100 MB
-</div>
-""",
-unsafe_allow_html=
